@@ -1,0 +1,33 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: dump-test
+spec:
+  schedule: "* */1 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          volumes:
+            - name: mysqldump
+              hostPath:
+                path: /root/tmp/mysqldump
+          containers:
+            - name: dump-peer-hour
+              image: f10atin9/dump_dir:latest
+              env:
+                - name: DB_HOST
+                  value: "192.168.0.5"
+                - name: DB_PORT
+                  value: "3306"
+                - name: DB_USER
+                  value: "f10atin9"
+                - name: DB_PASS
+                  value: "P@2s50rd"
+                - name: ALL_DATABASES
+                  value: "true"
+              volumeMounts:
+                - mountPath: /mysqldump
+                  name: mysqldump
+              imagePullPolicy: IfNotPresent
+          restartPolicy: OnFailure
