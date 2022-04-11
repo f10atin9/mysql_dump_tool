@@ -11,17 +11,15 @@ RUN go mod download
 
 # Copy the go source
 COPY main.go main.go
-COPY update/ update/
 COPY cmd/ cmd/
 
 # Build
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o manager main.go
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o mysql_dump_tool main.go
 
 # Use distroless as minimal base image to package the manager binary
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
 FROM kubesphere/distroless-static:nonroot
 WORKDIR /
-COPY --from=builder /workspace/manager .
-# USER 65532:65532
+COPY --from=builder /workspace/mysql_dump_tool .
 
-ENTRYPOINT ["/manager"]
+ENTRYPOINT ["/mysql_dump_tool"]

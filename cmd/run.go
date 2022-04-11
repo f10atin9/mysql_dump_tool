@@ -74,7 +74,8 @@ func uploadSQL(filePath, dateStr string, bucketService *qs.Bucket) error {
 	if output, err := bucketService.PutObject(objectKey, input); err != nil {
 		fmt.Printf("Put object to bucket(name: %s) failed with given error: %s\n", QSconfig.BucketName, err)
 	} else {
-		fmt.Printf("The status code expected: 201(actually: %d)\n", *output.StatusCode)
+		fmt.Printf("%s has been uploaded to bucket. Status code: %d \n", file.Name(), *output.StatusCode)
+		setupLog.Info("%s has been uploaded to bucket. Status code: %d \n", file.Name(), *output.StatusCode)
 	}
 	return err
 }

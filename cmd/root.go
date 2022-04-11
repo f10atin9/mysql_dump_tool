@@ -36,7 +36,7 @@ func Execute() {
 func init() {
 	fs := rootCmd.Flags()
 	fs.StringVar(&QSconfig.AccessKey, "accessKey", "", "access key")
-	fs.StringVar(&QSconfig.SecretKey, "secretKet", "", "secret-key")
+	fs.StringVar(&QSconfig.SecretKey, "secretKey", "", "secret-key")
 	fs.StringVar(&QSconfig.BucketName, "bucketName", "", "Specify the bucket for file upload")
 	fs.StringVar(&QSconfig.Zone, "zone", "", "Specify the zone where the bucket is located")
 	fs.StringVar(&QSconfig.LocalPath, "localPath", "", "The path to the sql file mount in the container")
