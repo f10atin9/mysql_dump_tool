@@ -14,7 +14,7 @@ spec:
                 path: /root/tmp/mysqldump
           containers:
             - name: dump-sql
-              image: 'f10atin9/dump_sql:latest'
+              image: 'f10atin9/dump:v0.1.0'
               env:
                 - name: DB_HOST
                   value: ""
@@ -31,7 +31,7 @@ spec:
                   name: mysqldump
               imagePullPolicy: IfNotPresent
             - name: upload-to-bucket
-              image: 'f10atin9/upload:latest'
+              image: 'f10atin9/upload:v0.1.0'
               args:
                 - '--accessKey='
                 - '--secretKey='

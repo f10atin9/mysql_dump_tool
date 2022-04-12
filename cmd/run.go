@@ -41,8 +41,7 @@ func subMain() error {
 		return err
 	}
 	for _, fi := range dir {
-		filePath := dirPath + "/" + fi.Name()
-		err := uploadSQL(filePath, dateStr, bucketService)
+		err := uploadSQL(dirPath, fi.Name(), dateStr, bucketService)
 		if err != nil {
 			setupLog.Error(err, "upload sql failed")
 			return err
@@ -51,7 +50,8 @@ func subMain() error {
 	return nil
 }
 
-func uploadSQL(filePath, dateStr string, bucketService *qs.Bucket) error {
+func uploadSQL(path, fileName, dateStr string, bucketService *qs.Bucket) error {
+	filePath := path + "/" + fileName
 	file, err := os.Open(filePath)
 	if err != nil {
 		setupLog.Error(err, "os open file failed")
@@ -70,12 +70,13 @@ func uploadSQL(filePath, dateStr string, bucketService *qs.Bucket) error {
 		Body:            file,
 		XQSStorageClass: toPtr("STANDARD"),
 	}
-	objectKey := QSconfig.UploadPath + "/" + dateStr + "/" + file.Name()
+	fmt.Println("fileName:", file.Name())
+	objectKey := QSconfig.UploadPath + "/" + dateStr + "/" + fileName
 	if output, err := bucketService.PutObject(objectKey, input); err != nil {
-		fmt.Printf("Put object to bucket(name: %s) failed with given error: %s\n", QSconfig.BucketName, err)
+		setupLog.Info(fmt.Sprintf("Put object to bucket(name: %s) failed with given error: %s\n", QSconfig.BucketName, err))
 	} else {
 		fmt.Printf("%s has been uploaded to bucket. Status code: %d \n", file.Name(), *output.StatusCode)
-		setupLog.Info("%s has been uploaded to bucket. Status code: %d \n", file.Name(), *output.StatusCode)
+		setupLog.Info(fmt.Sprintf("%s has been uploaded to bucket. Status code: %d \n", file.Name(), *output.StatusCode))
 	}
 	return err
 }
