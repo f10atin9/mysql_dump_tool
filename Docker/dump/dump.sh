@@ -1,13 +1,13 @@
 #!/bin/bash
 
-DB_USER=${DB_USER:-${MYSQL_ENV_DB_USER}}
-DB_PASS=${DB_PASS:-${MYSQL_ENV_DB_PASS}}
-DB_NAME=${DB_NAME:-${MYSQL_ENV_DB_NAME}}
-DB_HOST=${DB_HOST:-${MYSQL_ENV_DB_HOST}}
-DB_PORT=${DB_PORT:-${MYSQL_ENV_DB_PORT}}
-ALL_DATABASES=${ALL_DATABASES}
+DB_USER=${Mysql-User:-${MYSQL_ENV_DB_USER}}
+DB_PASS=${Mysql_Password:-${MYSQL_ENV_DB_PASS}}
+DB_NAME=${Mysql_DBName:-${MYSQL_ENV_DB_NAME}}
+DB_HOST=${Mysql_Host:-${MYSQL_ENV_DB_HOST}}
+DB_PORT=${Mysql_Port:-${MYSQL_ENV_DB_PORT}}
+ALL_DATABASES=${Mysql_AllDatabase}
 IGNORE_DATABASE=${IGNORE_DATABASE}
-
+Local_Path=${VolumeDump_Path}
 
 if [[ ${DB_USER} == "" ]]; then
         echo "Missing DB_USER env variable"

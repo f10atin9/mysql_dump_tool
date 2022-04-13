@@ -1,0 +1,37 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: mysql-dump
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          volumes:
+            - name: mysqldump
+              hostPath:
+                path: /root/tmp/mysqldump
+          containers:
+            - name: dump-sql
+              image: 'f10atin9/dump:v0.1.1'
+              envFrom:
+                - configMapRef:
+                    name: mysqldump
+              volumeMounts:
+                - mountPath: /mysqldump
+                  name: mysqldump
+              imagePullPolicy: IfNotPresent
+            - name: upload-to-bucket
+              image: 'f10atin9/upload:v0.1.1'
+              envFrom:
+                - configMapRef:
+                    name: mysqldump
+              resources: {}
+              volumeMounts:
+                - name: mysqldump
+                  mountPath: /mysqldump
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              imagePullPolicy: IfNotPresent
+          restartPolicy: OnFailure
