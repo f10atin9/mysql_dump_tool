@@ -3,6 +3,7 @@ package cmd
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"github.com/yunify/qingstor-sdk-go/config"
 	qs "github.com/yunify/qingstor-sdk-go/service"
@@ -20,12 +21,17 @@ var setupLog = ctrl.Log.WithName("setup")
 func subMain() error {
 	ctrl.SetLogger(zap.New(zap.UseDevMode(QSconfig.development)))
 
-	config, err := config.New(QSconfig.AccessKey, QSconfig.SecretKey)
+	if QSconfig.AccessKey == "" && QSconfig.SecretKey == "" {
+		err := errors.New("AccessKey and SecretKey cannot be empty string")
+		setupLog.Error(err, "AccessKey and SecretKey cannot be empty string")
+		return err
+	}
+	uploadConfig, err := config.New(QSconfig.AccessKey, QSconfig.SecretKey)
 	if err != nil {
 		setupLog.Error(err, "create a config failed")
 		return err
 	}
-	qsService, _ := qs.Init(config)
+	qsService, _ := qs.Init(uploadConfig)
 	bucketService, _ := qsService.Bucket(QSconfig.BucketName, QSconfig.Zone)
 
 	if err != nil {

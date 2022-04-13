@@ -35,17 +35,11 @@ func Execute() {
 
 func init() {
 	fs := rootCmd.Flags()
-	fs.StringVar(&QSconfig.AccessKey, "accessKey", "", "access key")
-	fs.StringVar(&QSconfig.SecretKey, "secretKey", "", "secret-key")
-	fs.StringVar(&QSconfig.BucketName, "bucketName", "", "Specify the bucket for file upload")
-	fs.StringVar(&QSconfig.Zone, "zone", "", "Specify the zone where the bucket is located")
-	fs.StringVar(&QSconfig.LocalPath, "localPath", "", "The path to the sql file mount in the container")
-	fs.StringVar(&QSconfig.UploadPath, "uploadPath", "", "The path to which the sql file needs to be uploaded")
+	fs.StringVar(&QSconfig.AccessKey, "accessKey", os.Getenv("QingStor_AccessorKey"), "access key")
+	fs.StringVar(&QSconfig.SecretKey, "secretKey", os.Getenv("QingStor_SecretKey"), "secret key")
+	fs.StringVar(&QSconfig.BucketName, "bucketName", os.Getenv("QingStor_BucketName"), "Specify the bucket for file upload")
+	fs.StringVar(&QSconfig.Zone, "zone", os.Getenv("QingStor_Zone"), "Specify the zone where the bucket is located")
+	fs.StringVar(&QSconfig.LocalPath, "localPath", os.Getenv("VolumeDump_Path"), "The path to the sql file mount in the container")
+	fs.StringVar(&QSconfig.UploadPath, "uploadPath", os.Getenv("QingStor_UploadPath"), "The path to which the sql file needs to be uploaded")
 	fs.BoolVar(&QSconfig.development, "development", false, "Use development logger config")
-	_ = rootCmd.MarkFlagRequired("accessKey")
-	_ = rootCmd.MarkFlagRequired("secretKey")
-	_ = rootCmd.MarkFlagRequired("bucketName")
-	_ = rootCmd.MarkFlagRequired("localPath")
-	_ = rootCmd.MarkFlagRequired("uploadPath")
-	_ = rootCmd.MarkFlagRequired("zone")
 }
