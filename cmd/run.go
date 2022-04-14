@@ -39,7 +39,7 @@ func subMain() error {
 		return err
 	}
 
-	dateStr := time.Now().Format("2006010215")
+	dateStr := time.Now().Format("2006/01/02/15")
 	dirPath := QSconfig.LocalPath + "/" + dateStr
 	dir, err := ioutil.ReadDir(dirPath)
 	if err != nil {
