@@ -39,8 +39,8 @@ func subMain() error {
 		return err
 	}
 
-	dateStr := time.Now().Format("2006010215")
-	dirPath := QSconfig.LocalPath + "/" + dateStr
+	dateStr := time.Now().Format("2006/01/02/15")
+	dirPath := QSconfig.LocalPath + "/mysqldump/" + dateStr
 	dir, err := ioutil.ReadDir(dirPath)
 	if err != nil {
 		setupLog.Error(err, "read sql dir failed")
@@ -76,13 +76,11 @@ func uploadSQL(path, fileName, dateStr string, bucketService *qs.Bucket) error {
 		Body:            file,
 		XQSStorageClass: toPtr("STANDARD"),
 	}
-	fmt.Println("fileName:", file.Name())
 	objectKey := QSconfig.UploadPath + "/" + dateStr + "/" + fileName
 	if output, err := bucketService.PutObject(objectKey, input); err != nil {
 		setupLog.Info(fmt.Sprintf("Put object to bucket(name: %s) failed with given error: %s\n", QSconfig.BucketName, err))
 	} else {
-		fmt.Printf("%s has been uploaded to bucket. Status code: %d \n", file.Name(), *output.StatusCode)
-		setupLog.Info(fmt.Sprintf("%s has been uploaded to bucket. Status code: %d \n", file.Name(), *output.StatusCode))
+		setupLog.Info(fmt.Sprintf("%s has been uploaded to bucket. Status code: %d", file.Name(), *output.StatusCode))
 	}
 	return err
 }

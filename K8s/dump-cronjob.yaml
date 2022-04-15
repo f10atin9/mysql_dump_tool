@@ -12,7 +12,7 @@ spec:
             - name: mysqldump
               hostPath:
                 path: /root/tmp/mysqldump
-          containers:
+          initContainers:
             - name: dump-sql
               image: 'f10atin9/dump:v0.1.1'
               envFrom:
@@ -22,6 +22,7 @@ spec:
                 - mountPath: /mysqldump
                   name: mysqldump
               imagePullPolicy: IfNotPresent
+          containers:
             - name: upload-to-bucket
               image: 'f10atin9/upload:v0.1.1'
               envFrom:
