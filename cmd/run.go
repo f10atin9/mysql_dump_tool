@@ -76,13 +76,11 @@ func uploadSQL(path, fileName, dateStr string, bucketService *qs.Bucket) error {
 		Body:            file,
 		XQSStorageClass: toPtr("STANDARD"),
 	}
-	fmt.Println("fileName:", file.Name())
 	objectKey := QSconfig.UploadPath + "/" + dateStr + "/" + fileName
 	if output, err := bucketService.PutObject(objectKey, input); err != nil {
 		setupLog.Info(fmt.Sprintf("Put object to bucket(name: %s) failed with given error: %s\n", QSconfig.BucketName, err))
 	} else {
-		fmt.Printf("%s has been uploaded to bucket. Status code: %d \n", file.Name(), *output.StatusCode)
-		setupLog.Info(fmt.Sprintf("%s has been uploaded to bucket. Status code: %d \n", file.Name(), *output.StatusCode))
+		setupLog.Info(fmt.Sprintf("%s has been uploaded to bucket. Status code: %d", file.Name(), *output.StatusCode))
 	}
 	return err
 }
