@@ -39,8 +39,8 @@ func subMain() error {
 		return err
 	}
 
-	dateStr := time.Now().Format("2006010215")
-	dirPath := QSconfig.LocalPath + "/" + dateStr
+	dateStr := time.Now().Format("2006/01/02/15")
+	dirPath := QSconfig.LocalPath + "/mysqldump/" + dateStr
 	dir, err := ioutil.ReadDir(dirPath)
 	if err != nil {
 		setupLog.Error(err, "read sql dir failed")
