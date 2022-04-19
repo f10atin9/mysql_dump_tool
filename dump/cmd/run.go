@@ -67,7 +67,10 @@ func uploadSQL(path, fileName, dateStr string, bucketService *qs.Bucket) error {
 	}()
 
 	hash := md5.New()
-	io.Copy(hash, file)
+	_, err = io.Copy(hash, file)
+	if err != nil {
+		setupLog.Error(err, "ioCopy failed ")
+	}
 	hashInBytes := hash.Sum(nil)[:16]
 	md5String := hex.EncodeToString(hashInBytes)
 	toPtr := func(s string) *string { return &s }
