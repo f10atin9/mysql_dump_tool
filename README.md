@@ -4,7 +4,7 @@ A tool that periodically executes mysqldump operations and uploads backup files 
 ## Quick Start
 1. Set up connection and upload configuration
 
-   In order to be able to connect to mysql-server and QingStor bucket correctly, please modify the [dump-configmap.yaml](K8s/dump-configmap.yaml) file according to your own configuration.
+   In order to be able to connect to mysql-server and QingStor bucket correctly, please modify the [dump-configmap.yaml](K8s/dump/dump-configmap.yaml) file according to your own configuration.
 
 2. Configure cronJob
 

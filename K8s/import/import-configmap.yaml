@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-import
+data:
+  Mysql_Host: ""
+  Mysql_Port: ""
+  Mysql_User: ""
+  Mysql_Password: ""
+  Mysql_AllDatabase: "true"
+  Mysql_DBName: ""
+  SQL_File_Path: ""
+
+  QingStor_AccessorKey: ""
+  QingStor_SecretKey: ""
+  QingStor_Zone: ""
+  QingStor_BucketName: ""
+  Bucket_Path: ""
+
+  VolumeDump_Path: "/mysqldump"
